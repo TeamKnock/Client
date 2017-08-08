@@ -14,10 +14,10 @@ TagManager:
   - 
   - 
   - Room
-  - 
-  - 
-  - 
-  - 
+  - CheckInArea
+  - Wall
+  - Ground
+  - Player
   - 
   - 
   - 

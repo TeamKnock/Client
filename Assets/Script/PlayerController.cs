@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public bool isGround = false;
 
-    bool isGroundCheck = true;
+    public bool isGroundCheck = true;
 
     /// <summary>
     /// 유저 정보
@@ -73,6 +73,8 @@ public class PlayerController : MonoBehaviour
     Transform tr;
     Rigidbody ri;
 
+    public WeaponController weaponController;
+
     /// <summary>
     /// 클라이언트 유저를 세팅합니다.
     /// </summary>
@@ -102,6 +104,8 @@ public class PlayerController : MonoBehaviour
         //초기 값 세팅
         oldPos = tr.position;
         oldRot = tr.rotation;
+
+        weaponController.Set();
     }
 
 
@@ -116,6 +120,10 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space))
                 Jump();
+
+            if (Input.GetMouseButtonDown(0)) {
+                weaponController.Attack();
+            }
 
         }
         else
@@ -196,20 +204,23 @@ public class PlayerController : MonoBehaviour
     void Jump() {
         if (!isGround)
             return;
-
+        
         ri.velocity = new Vector3(ri.velocity.x, jumpPower, ri.velocity.z);
 
+        isGround = false;
+
         if (groundCheckDelay != null)
+        {
             StopCoroutine(groundCheckDelay);
+        }
 
         groundCheckDelay = StartCoroutine(GroundCheckDelay());
 
-        isGround = false;
     }
 
     void GroundCheck() {
         RaycastHit hit;
-        if (Physics.Raycast(tr.position, -tr.up, out hit, 1f)) {
+        if (Physics.Raycast(tr.position, -tr.up, out hit, 1.5f)) {
             isGround = true;
         }
     }
@@ -218,7 +229,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator GroundCheckDelay() {
         isGroundCheck = false;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         isGroundCheck = true;
     }
 

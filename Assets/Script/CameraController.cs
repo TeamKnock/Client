@@ -8,6 +8,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
+    public static CameraController instance;
+
     /// <summary>
     /// 타겟과의 거리
     /// </summary>
@@ -15,6 +17,7 @@ public class CameraController : MonoBehaviour
 
     //바라볼 타겟
     public Transform target;
+    public Transform hand;
 
     public float lerpTime = 10f;
 
@@ -31,29 +34,57 @@ public class CameraController : MonoBehaviour
 
     void Awake()
     {
+        instance = this;
         tr = GetComponent<Transform>();
     }
 
-    void Start() {
-        //Cursor.lockState = CursorLockMode.Locked;
+    void Start()
+    {
+        SetCursor();
     }
 
 
     void Update()
     {
-        rotationX = tr.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
-        rotationY += Input.GetAxis("Mouse Y") * sensitivity;
-        rotationY = Mathf.Clamp(rotationY, minY, maxY);
+        if (!Cursor.visible)
+        {
 
-        tr.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+            rotationX = tr.localEulerAngles.y + Input.GetAxis("Mouse X") * sensitivity;
+            rotationY += Input.GetAxis("Mouse Y") * sensitivity;
+            rotationY = Mathf.Clamp(rotationY, minY, maxY);
+
+            tr.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SetCursor();
+        }
+
     }
 
-    void FixedUpdate()
+    void SetCursor()
+    {
+        if (Cursor.visible)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+    }
+
+
+    void LateUpdate()
     {
         if (target != null)
         {
-            tr.position = Vector3.Lerp(tr.position, target.position + distance, Time.smoothDeltaTime * lerpTime);
-            target.localEulerAngles = new Vector3(0, rotationX, 0);
+            tr.position = target.position + distance;
+            target.localEulerAngles = Vector3.Lerp(tr.localEulerAngles, new Vector3(0, rotationX, 0), Time.smoothDeltaTime * lerpTime);
+            hand.localEulerAngles = Vector3.Lerp(tr.localEulerAngles, new Vector3(-rotationY, 0, 0), Time.smoothDeltaTime * lerpTime);
         }
     }
 

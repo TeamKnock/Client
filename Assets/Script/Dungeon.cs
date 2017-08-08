@@ -25,10 +25,6 @@ public class Dungeon : MonoBehaviour
     [TextArea]
     public string context;
     /// <summary>
-    /// 맵 오브젝트
-    /// </summary>
-    public GameObject map;
-    /// <summary>
     /// 맵 사이즈
     /// </summary>
     public Vector3 size;
@@ -37,6 +33,12 @@ public class Dungeon : MonoBehaviour
     /// </summary>
     public List<LastPoint> lastPointList;
 
+    [HideInInspector]
+    public Transform tr;
+
+    void Awake() {
+        tr = GetComponent<Transform>();
+    }
 
     public void FindLastPoint()
     {
@@ -258,9 +260,9 @@ public enum DungeonCategory
     /// </summary>
     Battle,
     /// <summary>
-    /// 탈출
+    /// 이벤트
     /// </summary>
-    Escape,
+    Event,
     /// <summary>
     /// 상점
     /// </summary>
