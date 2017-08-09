@@ -150,6 +150,17 @@ public class Dungeon : MonoBehaviour
 
     }
 
+    void OnTriggerEnter(Collider col) {
+        if (col.gameObject.layer == LayerMask.NameToLayer("Player"))
+            Open();
+    }
+
+    public void Open() {
+        if (GameManager.instance.currentDungeon == this) {
+            GameManager.instance.StartMakeDungeon();
+        }
+    }
+
 }
 
 /// <summary>
@@ -168,7 +179,7 @@ public class LastPoint
     public MapDirection direction;
 
 
-    float distance = 10;
+    float distance = 50;
 
     public LastPoint()
     {

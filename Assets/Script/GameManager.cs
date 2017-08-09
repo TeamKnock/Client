@@ -17,30 +17,44 @@ public class GameManager : MonoBehaviour
 
     public int maxRooms = 500;
 
+    bool isMakeRun = false;
+
     void Awake()
     {
         instance = this;
     }
     void Start()
     {
-        StartCoroutine(MakeDungeon());
+        StartCoroutine(MakeDungeon(true));
     }
 
 
-    IEnumerator MakeDungeon()
+    IEnumerator MakeDungeon(bool isFirst)
     {
+        isMakeRun = true;
         bool isEnd = true;
         bool isFail = false;
-        int cnt = 0, totalCnt = 0;
+        int cnt = 0, infinityLoopCheck = 0,totalCnt = 0;
+        GameObject map;
         while (isEnd)
         {
             RETRY:
 
             dungeonPointIndexList.Clear();
+            ++infinityLoopCheck;
 
+            if (infinityLoopCheck > 100)
+            {
+                isEnd = false;
+                print("경우의 수가 존재하지 않습니다. 루프를 중지합니다.");
+                if (totalCnt == 0)
+                    print("방이 하나도 생성되지 못합니다.");
+                break;
+
+            }
+            
             isFail = false;
-
-            GameObject map = Instantiate(dungeonList[Random.Range(0, dungeonList.Count)]);
+            map = Instantiate(dungeonList[Random.Range(0, dungeonList.Count)]);
             map.name = "Room" + totalCnt;
             map.SetActive(false);
 
@@ -65,7 +79,6 @@ public class GameManager : MonoBehaviour
                             dungeonPointIndexList.Clear();
                             --cnt;
                             loopCnt = 0;
-                            //print("remove stack");
                         }
                         else {
                             isFail = true;
@@ -80,6 +93,7 @@ public class GameManager : MonoBehaviour
 
                 if (!map.GetComponent<Dungeon>().isAlreadyDir(lastPoint.direction) || isFail)
                 {
+
                     Destroy(map);
                     goto RETRY;
                 }
@@ -107,9 +121,10 @@ public class GameManager : MonoBehaviour
 
             ++cnt;
             ++totalCnt;
+            infinityLoopCheck = 0;
             map.SetActive(true);
 
-            if (cnt > maxRooms)
+            if (cnt > maxRooms - 1)
             {
                 isEnd = false;
                 print("is all made");
@@ -121,8 +136,12 @@ public class GameManager : MonoBehaviour
         }
 
         stackDungeon.Clear();
-        PlayGame();
 
+        if (isFirst)
+            PlayGame();
+
+
+        isMakeRun = false;
     }
 
     bool FindIndex(int index)
@@ -174,9 +193,15 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void PlayGame() {
+    void PlayGame()
+    {
         CameraController.instance.SetCursor();
     }
 
+    public void StartMakeDungeon()
+    {
+        if (!isMakeRun)
+            StartCoroutine(MakeDungeon(false));
+    }
 
 }

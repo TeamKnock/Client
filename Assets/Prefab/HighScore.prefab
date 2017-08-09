@@ -921,7 +921,7 @@ Transform:
   m_GameObject: {fileID: 1122897167923754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 5}
+  m_LocalScale: {x: 3, y: 1, z: 5}
   m_Children:
   - {fileID: 4180241094370944}
   - {fileID: 4277829714443130}
@@ -3035,7 +3035,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1122897167923754}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 20, y: 10, z: 20}
@@ -3055,14 +3055,12 @@ MonoBehaviour:
   id: 0
   category: 0
   context: 
-  size: {x: 20, y: 10, z: 100}
+  size: {x: 60, y: 10, z: 100}
   lastPointList:
   - point: {fileID: 4444386917826166}
     direction: 0
-    distance: 100
   - point: {fileID: 4686409050198764}
     direction: 1
-    distance: 100
   tr: {fileID: 0}
   shotBoard: {fileID: 1642500513284490, guid: 3e921f17501847c4c979d861b54b4086, type: 2}
   score: 0
