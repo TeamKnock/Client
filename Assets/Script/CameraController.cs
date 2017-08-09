@@ -40,7 +40,6 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
-        SetCursor();
     }
 
 
@@ -63,7 +62,7 @@ public class CameraController : MonoBehaviour
 
     }
 
-    void SetCursor()
+    public void SetCursor()
     {
         if (Cursor.visible)
         {

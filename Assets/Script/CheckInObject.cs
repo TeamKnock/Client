@@ -10,10 +10,9 @@ public class CheckInObject : MonoBehaviour
 
     public List<LayerMask> checkLayers;
 
-
     void OnTriggerEnter(Collider col)
     {
-        print((1 << col.gameObject.layer) + " / " + checkLayers[0].value);
+
 
         if (!CheckLayers(1 << col.gameObject.layer))
             return;
@@ -22,6 +21,8 @@ public class CheckInObject : MonoBehaviour
         realObject.transform.SetParent(null);
         gameObject.SetActive(false);
     }
+
+
 
     bool CheckLayers(int layer)
     {

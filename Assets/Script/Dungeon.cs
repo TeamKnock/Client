@@ -36,7 +36,8 @@ public class Dungeon : MonoBehaviour
     [HideInInspector]
     public Transform tr;
 
-    void Awake() {
+    void Awake()
+    {
         tr = GetComponent<Transform>();
     }
 
@@ -68,15 +69,41 @@ public class Dungeon : MonoBehaviour
             case MapDirection.right: findDir = MapDirection.left; break;
         }
 
-        foreach (LastPoint point in lastPointList)
-        {
-            if (point.direction == findDir)
+        for (int i = 0; i < lastPointList.Count; i++) {
+
+            if (lastPointList[i].direction == findDir)
             {
-                lastPointList.Remove(point);
-                point.Remove();
-                break;
+                lastPointList[i].Remove();
+                lastPointList.RemoveAt(i);
             }
         }
+        
+    }
+
+    public bool isAlreadyDir(MapDirection _dir)
+    {
+        MapDirection findDir = MapDirection.forward;
+
+        switch (_dir)
+        {
+            case MapDirection.forward: findDir = MapDirection.back; break;
+            case MapDirection.back: findDir = MapDirection.forward; break;
+            case MapDirection.up: findDir = MapDirection.down; break;
+            case MapDirection.down: findDir = MapDirection.up; break;
+            case MapDirection.left: findDir = MapDirection.right; break;
+            case MapDirection.right: findDir = MapDirection.left; break;
+        }
+
+        for (int i = 0; i < lastPointList.Count; i++)
+        {
+
+            if (lastPointList[i].direction == findDir)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
@@ -103,7 +130,8 @@ public class Dungeon : MonoBehaviour
 
 
         int cnt = 0;
-        for (int i = 0; i < hit.Length; i++) {
+        for (int i = 0; i < hit.Length; i++)
+        {
             if (hit[i].collider.gameObject.GetComponent<Dungeon>() != _currentDungeon && hit[i].collider.gameObject.GetComponent<Dungeon>() != _nextDungeon)
                 ++cnt;
         }
@@ -140,7 +168,7 @@ public class LastPoint
     public MapDirection direction;
 
 
-    public float distance = 100f;
+    float distance = 10;
 
     public LastPoint()
     {

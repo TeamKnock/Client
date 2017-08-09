@@ -30,12 +30,15 @@ public class GameManager : MonoBehaviour
     IEnumerator MakeDungeon()
     {
         bool isEnd = true;
+        bool isFail = false;
         int cnt = 0, totalCnt = 0;
         while (isEnd)
         {
+            RETRY:
 
             dungeonPointIndexList.Clear();
 
+            isFail = false;
 
             GameObject map = Instantiate(dungeonList[Random.Range(0, dungeonList.Count)]);
             map.name = "Room" + totalCnt;
@@ -65,7 +68,7 @@ public class GameManager : MonoBehaviour
                             //print("remove stack");
                         }
                         else {
-                            isEnd = false;
+                            isFail = true;
                             break;
                         }
                     }
@@ -73,6 +76,13 @@ public class GameManager : MonoBehaviour
                     lastPoint = currentDungeon.lastPointList[index];
                     ++loopCnt;
                 } while (CheckLastPoint(index, lastPoint, currentDungeon, map.GetComponent<Dungeon>())); // 
+
+
+                if (!map.GetComponent<Dungeon>().isAlreadyDir(lastPoint.direction) || isFail)
+                {
+                    Destroy(map);
+                    goto RETRY;
+                }
 
                 if (isEnd)
                 {
@@ -105,12 +115,14 @@ public class GameManager : MonoBehaviour
                 print("is all made");
             }
 
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForFixedUpdate();
 
 
         }
 
         stackDungeon.Clear();
+        PlayGame();
+
     }
 
     bool FindIndex(int index)
@@ -160,6 +172,10 @@ public class GameManager : MonoBehaviour
         else
             return true;
 
+    }
+
+    void PlayGame() {
+        CameraController.instance.SetCursor();
     }
 
 

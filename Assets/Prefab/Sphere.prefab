@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 135227402178494894}
   - component: {fileID: 114474681137576080}
   m_Layer: 9
-  m_Name: Sphere
+  m_Name: CheckInObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,6 +151,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e7a23cb90256944e9b9cf2331bc7378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkLayers:
+  - serializedVersion: 2
+    m_Bits: 1
 --- !u!135 &135227402178494894
 SphereCollider:
   m_ObjectHideFlags: 1

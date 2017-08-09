@@ -12,6 +12,8 @@ public class Bullet : MonoBehaviour
     public float damage = 0f;
     public float speed = 100f;
 
+    public List<LayerMask> checkLayers;
+
     void Awake()
     {
         tr = GetComponent<Transform>();
@@ -55,6 +57,9 @@ public class Bullet : MonoBehaviour
     void OnCollisionEnter(Collision col)
     {
 
+        if (!CheckLayers(1 << col.gameObject.layer))
+            return;
+
         Remove();
     }
 
@@ -64,6 +69,18 @@ public class Bullet : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         Remove();
+    }
+
+    bool CheckLayers(int layer)
+    {
+        for (int i = 0; i < checkLayers.Count; ++i)
+        {
+            if (checkLayers[i].value == layer)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -111,6 +111,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   speed: 100
+  checkLayers:
+  - serializedVersion: 2
+    m_Bits: 7168
 --- !u!135 &135192419144502832
 SphereCollider:
   m_ObjectHideFlags: 1

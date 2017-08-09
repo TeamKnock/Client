@@ -288,12 +288,13 @@ MonoBehaviour:
   - {fileID: 1349065651897496, guid: e99d1253e4eb0de49afa603eefe22ace, type: 2}
   - {fileID: 1525920944205126, guid: 93b0f71b0c8aa2744a141633c0aa6cba, type: 2}
   - {fileID: 1122897167923754, guid: 23d1b874e130d4b4e8e1109f4308063e, type: 2}
+  - {fileID: 1449714657643902, guid: 052ede7407a56aa40af6f2ab1620dd0e, type: 2}
   currentDungeon: {fileID: 0}
   currentMap: {fileID: 0}
   stackDungeon: []
   dungeonPointIndexList: 
   queueDir: 
-  maxRooms: 20
+  maxRooms: 3
 --- !u!1 &816260240
 GameObject:
   m_ObjectHideFlags: 0
